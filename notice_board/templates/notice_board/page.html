@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お知らせ詳細</title>
+    <style>
+        /* 全ページのレイアウト設定 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ヘッダ領域スタイル */
+        header {
+            background-color: #003458;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* GOMS タイトル スタイル */
+        header .goms-title {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        /*  ナビゲーション·スタイル */
+        header nav {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        /* ナビゲーション·リンク·スタイル */
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        /* リンクにマウスを載せたときに下線を表示 */
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* メインコンテンツとサイドバー設定 */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* サイドバー·スタイル */
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+        /* サイドバー·リンク·スタイル */
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #003458;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        /* サイドバーリンクにマウスを載せたときに背景色を変更 */
+        .sidebar a:hover {
+            background-color: #e9ecef;
+        }
+
+        /* コンテンツコンテナスタイル */
+        .container {
+            flex: 1;
+            max-width: 1000px;
+            margin: 20px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* タイトルスタイル */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* 情報グループスタイル */
+        .info-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ラベル·スタイル */
+        .info-group label {
+            display: block;
+            font-weight: bold;
+            width: 150px;
+            margin-right: 20px;
+        }
+
+        /* 情報テキストスタイル */
+        .info-group .info {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+        }
+
+        /* コンテンツ テキスト エリア スタイル */
+        .form-group textarea {
+            resize: none;
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        /* ボタン領域スタイル */
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* ボタン·スタイル */
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #003458;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* キャンセルボタンスタイル */
+        .form-actions button.cancel {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+
+        /* 経路表示スタイル */
+        .breadcrumbs-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* パス·テキスト·スタイル */
+        .breadcrumbs {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* パス·リンク·スタイル */
+        .breadcrumbs a {
+            color: #003458;
+        }
+
+        /* リンクにマウスを載せたときに下線を表示 */
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* 日付 表示 スタイル */
+        .date {
+            text-align: right;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- GOMSタイトルとナビゲーションメニュー -->
+    <div class="goms-title">
+        <a>TEST NOTICE BLOG</a>
+    </div>
+    <nav>
+        <!-- ホームとお知らせ管理に移動するナビゲーションリンク -->
+        <a href="{% url 'notice_list' %}">ホーム</a>
+        <a href="{% url 'notice_list' %}">お知らせ管理</a>
+    </nav>
+</header>
+
+<div class="main-content">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <a href="{% url 'notice_list' %}">お知らせ一覧</a>
+        <a href="{% url 'notice_register' %}">お知らせ登録</a>
+    </aside>
+
+    <!-- メインコンテンツ -->
+    <div class="container">
+        <!-- 経路表示 -->
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-content">
+                <div>
+                    <a href="{% url 'notice_list' %}">ホーム</a> &gt; <a href="{% url 'notice_list' %}">お知らせ管理</a> &gt; お知らせ詳細
+                </div>
+                <div class="date" id="current-date"></div>
+            </div>
+        </div>
+
+        <!-- お知らせ 詳細 情報 表示 -->
+        <h1>お知らせ詳細</h1>
+
+        <!-- タイトル情報の表示 -->
+        <div class="info-group">
+            <label>タイトル</label>
+            <div class="info">{{ notice.title }}</div>
+        </div>
+
+        <!-- 公開方式情報表示 -->
+        <div class="info-group">
+            <label>公開方式</label>
+            <div class="info">{{ notice.publishType }}</div>
+        </div>
+
+        <!-- 発信日情報表示 -->
+        <div class="info-group">
+            <label>発信日</label>
+            <div class="info">{{ notice.publishDate|date:"Y-m-d H:i" }}</div>
+        </div>
+
+        <!-- 有効期限情報の表示 -->
+        <div class="info-group">
+            <label>満了日</label>
+            <div class="info">{{ notice.expiryDate|date:"Y-m-d H:i" }}</div>
+        </div>
+
+        <!-- プッシュ通知の有無を表示 -->
+        <div class="info-group">
+            <label>プッシュ通知有無</label>
+            <div class="info">{{ notice.pushType }}</div>
+        </div>
+
+        <!-- 内容表示 -->
+        <div class="form-group">
+            <label for="contents">内容</label>
+            <textarea id="contents" readonly>{{ notice.contents }}</textarea>
+        </div>
+
+        <!-- 修正·キャンセルボタン -->
+        <div class="form-actions">
+            <button type="button" onclick="location.href='{% url 'notice_rewrite' notice.noticeId %}'">修正</button> <!-- 수정 버튼 -->
+            <button type="button" class="cancel" onclick="history.back();">戻る</button>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScriptで現在の日付を更新 -->
+<script>
+    function updateDate() {
+        const today = new Date();
+        const days = ['日', '月', '火', '水', '木', '金', '土'];
+        const formattedDate = `${today.getFullYear()}年 ${today.getMonth() + 1}月 ${today.getDate()}日 (${days[today.getDay()]})`;
+
+        document.getElementById('current-date').textContent = formattedDate;
+    }
+    updateDate();
+</script>
+
+</body>
+</html>

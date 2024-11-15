@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お知らせ登録・修正</title>
+    <style>
+        /* 全ページのレイアウトとスタイル設定 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ヘザースタイル定義 */
+        header {
+            background-color: #003458;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* GOMSタイトルスタイル定義 */
+        header .goms-title {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        /* ナビゲーションスタイル定義 */
+        header nav {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        /* ナビゲーションリンクスタイル */
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        /* ナビゲーション リンクにマウスを上げると下線が表示される */
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* メインコンテンツ領域設定 */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* サイドバースタイル定義 */
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+        /* サイドバーリンクスタイル */
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #003458;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        /* サイドバーリンクにマウスを載せたときに背景色を変更 */
+        .sidebar a:hover {
+            background-color: #e9ecef;
+        }
+
+        /* コンテンツコンテナスタイル */
+        .container {
+            flex: 1;
+            max-width: 1000px;
+            margin: 20px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* タイトルスタイル */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* フォームグループ設定 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* フォームラベル設定 */
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* テキストフィールドとテキスト領域スタイル*/
+        .form-group input[type="text"],
+        .form-group input[type="datetime-local"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* テキスト領域のサイズ調整機能を無効にする */
+        .form-group textarea {
+            resize: none;
+        }
+
+        /* ラジオボタンとラベル設定 */
+        .form-group input[type="radio"] {
+            margin-right: 10px;
+        }
+        .form-group input[type="radio"] + label {
+            margin-right: 20px;
+        }
+
+        /* ラジオグループをフレックスボックスに設定して一行に表示 */
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+
+        /* ラジオボタングループ間の間隔設定 */
+        .radio-group label {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 必須項目表示スタイル */
+        .form-group .required {
+            color: red;
+            margin-left: 5px;
+        }
+
+        /* フォームアクション領域設定 */
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* 登録及びキャンセルボタンスタイル */
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #003458;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* キャンセルボタン追加スタイル */
+        .form-actions button.cancel {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+
+        /* 経路表示と日付表示設定 */
+        .breadcrumbs-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* 経路表示スタイル */
+        .breadcrumbs {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* パス·リンク·スタイル */
+        .breadcrumbs a {
+            color: #003458;
+        }
+
+        /* パスリンクにマウスを載せたときに下線を表示 */
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* 日付 表示 スタイル */
+        .date {
+            text-align: right;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+
+    <!-- 日付と時刻 セレクタ プラグインの使用 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+</head>
+<body>
+
+<header>
+    <!-- GOMSタイトルとナビゲーションリンク -->
+    <div class="goms-title">
+        <a>GOMS</a>
+    </div>
+    <nav>
+        <!-- ホームとお知らせ管理に移動するリンク -->
+        <a href="{% url 'notice_list' %}">ホーム</a>
+        <a href="{% url 'notice_list' %}">お知らせ管理</a>
+    </nav>
+</header>
+
+<!-- メインコンテンツ領域 -->
+<div class="main-content">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <a href="{% url 'notice_list' %}">お知らせ一覧</a>
+        <a href="{% url 'notice_register' %}">お知らせ登録</a>
+    </aside>
+
+    <!-- フォーム·コンテナ -->
+    <div class="container">
+        <!-- 経路および日付の表示 -->
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-content">
+                <div>
+                <a href="{% url 'notice_list' %}">ホーム</a> &gt; <a href="{% url 'notice_list' %}">お知らせ管理</a> &gt; お知らせ登録・修正 ＞{{ notice.title }}
+
+                </div>
+                <div class="date" id="current-date"></div>
+            </div>
+        </div>
+
+        <!-- フォームタイトル -->
+        <h1>お知らせ登録・修正</h1>
+
+        <!-- お知らせ登録 -->
+        <form id="noticeForm" method="POST" action="{% url 'notice_rewrite' notice.noticeId %}">
+            {% csrf_token %}
+
+            <!-- タイトルフィールド -->
+            <div class="form-group">
+                <label for="title">タイトル <span class="required">必須</span></label>
+                <input type="text" id="title" name="title" value="{{ notice.title }}" >
+            </div>
+
+            <!-- 公開方式選択 -->
+            <div class="form-group">
+                <label>公開方式 <span class="required">必須</span></label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" id="timed_release" name="release_type"  value="t" {% if notice.publishType == 't' %}checked{% endif %} >
+                        時刻公開
+                    </label>
+                    <label>
+                        <input type="radio" id="immediate_release" name="release_type" value="i" {% if notice.publishType == 'i' %}checked{% endif %}>
+                        すぐ公開
+                    </label>
+                    <label>
+                        <input type="radio" id="hold_release" name="release_type" value="h" {% if notice.publishType == 'h' %}checked{% endif %}>
+                        保留
+                    </label>
+                </div>
+            </div>
+
+            <!-- 送信日選択フィールド -->
+            <div class="form-group">
+                <label for="datetimepicker_issue">発信日 <span class="required">必須</span></label>
+                <input type="text" id="datetimepicker_issue" name="issue_date" value="{{ notice.publishDate|date:'Y/m/d H:i' }}" >
+            </div>
+
+            <!-- 有効期限選択フィールド -->
+            <div class="form-group">
+                <label for="datetimepicker_expiry">満了日</label>
+                <input type="text" id="datetimepicker_expiry" name="expiry_date" value="{{ notice.expiryDate|date:'Y/m/d H:i' }}" >
+            </div>
+
+            <!-- プッシュ・お知らせ設定 -->
+           <div class="form-group" id="pushNotificationGroup">
+                <label>プッシュ通知有無 <span class="required">必須</span></label>
+                 <div class="radio-group">
+                    <label>
+                        <input type="radio" id="notify_yes" name="push_notification" value="y" checked>
+                        通知する
+                    </label>
+                    <label>
+                        <input type="radio" id="notify_no" name="push_notification" value="n">
+                        通知しない
+                    </label>
+                </div>
+           </div>
+
+            <!-- 内容入力フィールド -->
+            <div class="form-group">
+                <label for="contents">内容 <span class="required">必須</span></label>
+                <textarea id="contents" name="contents" rows="5" >{{ notice.contents }}</textarea>
+            </div>
+
+            <!-- フォームボタン -->
+            <div class="form-actions">
+                <button type="submit">修正</button>
+                <button type="button" class="cancel" onclick="history.back();">キャンセル</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        // datetimepicker日本語設定
+        $.datetimepicker.setLocale('ja');
+
+        // 発信日と満了日にdatetimepickerを適用
+        $('#datetimepicker_issue').datetimepicker();
+        $('#datetimepicker_expiry').datetimepicker();
+
+        // 発信日を選択した場合、有効期限も同様に設定
+        $('#datetimepicker_issue').on('change', function() {
+            $('#datetimepicker_expiry').val($(this).val());
+        });
+
+        // 現在日付表示
+        const today = new Date();
+        const days = ['日', '月', '火', '水', '木', '金', '土'];
+        const formattedDate = `${today.getFullYear()}年 ${today.getMonth() + 1}月 ${today.getDate()}日 (${days[today.getDay()]})`;
+        document.getElementById('current-date').textContent = formattedDate;
+
+        // 公開方式によるフィールド表示/非表示
+        const timedRelease = document.getElementById('timed_release');
+        const immediateRelease = document.getElementById('immediate_release');
+        const holdRelease = document.getElementById('hold_release');
+        const issueDateField = document.getElementById('datetimepicker_issue').parentElement;
+        const expiryDateField = document.getElementById('datetimepicker_expiry').parentElement;
+        const pushNotificationGroup = document.getElementById('pushNotificationGroup');
+        function toggleFields() {
+            if (timedRelease.checked) {
+                issueDateField.style.display = '';
+                expiryDateField.style.display = '';
+                pushNotificationGroup.style.display = '';
+            } else if (immediateRelease.checked) {
+                issueDateField.style.display = 'none';
+                expiryDateField.style.display = '';
+                pushNotificationGroup.style.display = '';
+            } else if (holdRelease.checked) {
+                issueDateField.style.display = 'none';
+                expiryDateField.style.display = 'none';
+                pushNotificationGroup.style.display = 'none';
+
+            }
+        }
+
+        // 公開方式によるフィールドステータス更新
+        timedRelease.addEventListener('change', toggleFields);
+        immediateRelease.addEventListener('change', toggleFields);
+        holdRelease.addEventListener('change', toggleFields);
+
+        toggleFields();
+    });
+
+    //フォーム有効性検査および警告の処理
+    document.getElementById('noticeForm').addEventListener('submit', function (event) {
+        const title = document.getElementById('title');
+        const issueDate = document.getElementById('datetimepicker_issue');
+        const contents = document.getElementById('contents');
+
+        // ER-1
+        if (title.value.trim() === '') {
+            console.log('ER-1: タイトルが空白の場合');
+            const isConfirmed = confirm('タイトルを入力してください。');
+            if (!isConfirmed) {
+                title.focus();
+                event.preventDefault();
+            }
+            return;
+        }
+
+        // ER-2
+        if (document.getElementById('timed_release').checked && issueDate.value.trim() === '') {
+            console.log('ER-2: 発信日が空白の場合');
+            const isConfirmed = confirm('発信日を選択してください。');
+            if (!isConfirmed) {
+                issueDate.focus();
+                event.preventDefault();
+            }
+            return;
+        }
+
+        // ER-3
+        if (contents.value.trim() === '') {
+            console.log('ER-3: 内容が空白の場合');
+            const isConfirmed = confirm('内容を入力してください。');
+            if (!isConfirmed) {
+                contents.focus();
+                event.preventDefault();
+            }
+            return;
+        }
+
+        // CF-1
+        if (!confirm('お知らせを登録しますか？')) {
+            console.log('CF-1: お知らせを登録する場合');
+            event.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>

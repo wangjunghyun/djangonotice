@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지 리스트</title>
+    <style>
+        /* ページのデフォルトレイアウトとスタイルを設定 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ヘッダースタイル: ページ上部のGOMSタイトルとメニュー */
+        header {
+            background-color: #003458;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* GOMS タイトル スタイル */
+        header .goms-title {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        /* ナビゲーション スタイル: メニュー リンクを左揃え */
+        header nav {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        /* ナビゲーション リンク スタイル: メニュー間隔とリンク スタイルの設定 */
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        /* ナビゲーションリンクにマウスを載せたときに下線を表示 */
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* メインコンテンツのレイアウト:サイドバーとコンテンツ領域を左右に配置 */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* サイドバースタイル: 左側のメニューと背景色、ダウン設定 */
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+        /* サイドバー リンク スタイル: ブロックで表示され、リンクの間隔とホバー スタイルの設定 */
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #003458;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        /* サイドバーリンクにマウスを載せたときに背景色を変更 */
+        .sidebar a:hover {
+            background-color: #003458;
+        }
+
+        /* コンテンツ エリア スタイル: ダウンとテーブルの配置設定 */
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* テーブルスタイル: 全幅を占め、枠及びダウン設定 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        /* テーブル ヘッダーとセル スタイル: 枠、ダウン、テキスト 並べ替えの設定 */
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* テーブルヘッダー背景色設定 */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* テーブル行にマウスを載せたときに背景色を変更 */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* ボタンスタイル: 背景色、テキスト色、ダウン、枠の形の設定 */
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #003458;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* ボタンにマウスを載せたときに背景の色を変更 */
+        .button:hover {
+            background-color: #003458;
+        }
+
+        /* ページ上段の経路表示スタイル:各経路を羅列し、現在地を表示 */
+        .breadcrumbs-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* パス リンク スタイル: フォント サイズ 設定 */
+        .breadcrumbs {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* パス リンク スタイルの設定: リンクの色とホバー時に下線を表示 */
+        .breadcrumbs a {
+            color: #003458;
+        }
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* 日付 表示 スタイル: 右 整列、フォント サイズと色 設定 */
+        .date {
+            text-align: right;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- GOMSタイトルとメニューを表示する領域 -->
+    <div class="goms-title">
+        <a>TEST NOTICE BLOG</a>
+    </div>
+    <nav>
+        <!-- ナビゲーションメニュー:ホームとお知らせ管理リンク -->
+        <a href="{% url 'notice_list' %}">HOME</a>
+        <a href="{% url 'notice_list' %}">공지 관리</a>
+    </nav>
+</header>
+
+<div class="main-content">
+    <aside class="sidebar">
+        <!-- サイドバーのメニュー:お知らせ事項のリストや登録ページに移動 -->
+        <a href="{% url 'notice_list' %}">공지 리스트</a>
+        <a href="{% url 'notice_register' %}">공지 등록</a>
+    </aside>
+
+    <div class="content">
+        <!-- 経路表示領域 -->
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-content">
+                <div>
+                    <a href="{% url 'notice_list' %}">HOME</a> &gt; <a href="{% url 'notice_list' %}">공지 관리 </a> &gt; 공지 리스트
+                </div>
+            </div>
+        </div>
+
+        <!-- ページのメインタイトル -->
+        <div class="header">공지 리스트</div>
+
+        <!-- JavaScriptで現在の日付を更新 -->
+        <script>
+            function updateDate() {
+                const today = new Date();
+                const days = ['日', '月', '火', '水', '木', '金', '土'];
+                const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일 (${days[today.getDay()]})`;
+
+                document.getElementById('current-date').textContent = formattedDate;
+            }
+            updateDate();
+        </script>
+
+        <!-- お知らせリストテーブル -->
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>제목</th>
+                    <th>공개방식</th>
+                    <th>공개일</th>
+                    <th>만료일</th>
+                    <th>알림여부</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Djangoテンプレートでお知らせリストを繰り返し出力 -->
+                {% for notice in notice_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'notice_page' notice.noticeId %}" style="color: #003458;">{{ notice.title }}</a></td>
+                    <td>
+                        {% if notice.publishType == 't'%}
+                            예약공개
+                        {% elif notice.publishType == 'i'%}
+                            즉시공개
+                        {% elif notice.publishType == 'h'%}
+                            비공개
+                        {% endif %}
+
+                    </td>
+                    <td>{{ notice.publishDate|date:"Y-m-d H:i" }}</td>
+                    <td>{{ notice.expiryDate|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        {% if notice.pushType == 'y' %}
+                            허용
+                        {% elif notice.pushType == 'n' %}
+                            거부
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- お知らせ登録ボタン -->
+        <div style="text-align: right; margin-top: 10px;">
+            <a href="{% url 'notice_register' %}" class="button">신규 등록</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お知らせ登録完了</title>
+    <style>
+        /* 全ページのレイアウトとスタイル設定 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ヘッダ領域スタイル */
+        header {
+            background-color: #003458;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* GOMS タイトル スタイル */
+        header .goms-title {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        /* ナビゲーション·メニュー·スタイル */
+        header nav {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        /* ナビゲーション·リンク·スタイル */
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        /* ナビゲーションリンクにマウスを載せたときに下線を表示 */
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* メインコンテンツレイアウト */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+        /* サイドバー·リンク·スタイル */
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #003458;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        /* サイドバーリンクにマウスを掲載した時、背景色変更 */
+        .sidebar a:hover {
+            background-color: #e9ecef;
+        }
+
+        /* コンテンツ·ボックス·スタイル */
+        .container {
+            flex: 1;
+            max-width: 1000px;
+            margin: 20px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ページタイトルスタイル */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* 経路および日付表示領域レイアウト */
+        .breadcrumbs-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* 経路表示スタイル */
+        .breadcrumbs {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* パス·リンク·スタイル */
+        .breadcrumbs a {
+            color: #003458;
+        }
+
+        /* パスリンクにマウスを載せたときに下線を表示 */
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* 現在の日付表示スタイル */
+        .date {
+            text-align: right;
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* 登録済みメッセージスタイル */
+        .notice-complete {
+            font-size: 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* ボタンスタイル領域 */
+        .return-btn {
+            display: block;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        /* ボタンスタイル */
+        .return-btn button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #003458;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* ボタンにマウスを載せたときに背景色を変更 */
+        .return-btn button:hover {
+            background-color: #003458;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- GOMSタイトルとナビゲーションメニュー -->
+    <div class="goms-title">
+        <a>GOMS</a>
+    </div>
+    <nav>
+        <!-- ホームとお知らせ管理に移動するナビゲーションリンク -->
+        <a href="{% url 'notice_list' %}">ホーム</a>
+        <a href="{% url 'notice_list' %}">お知らせ管理</a>
+    </nav>
+</header>
+
+<!-- メインコンテンツ領域 -->
+<div class="main-content">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <a href="{% url 'notice_list' %}">お知らせ一覧</a>
+        <a href="{% url 'notice_register' %}">お知らせ登録</a>
+    </aside>
+
+    <!-- お知らせ登録完了メッセージを表示するコンテナ -->
+    <div class="container">
+        <!-- 経路および日付の表示 -->
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-content">
+                <div>
+
+                    <a href="{% url 'notice_list' %}">ホーム</a> &gt; <a href="{% url 'notice_list' %}">お知らせ管理</a> &gt; お知らせ登録＞登録完了
+                </div>
+                <div class="date" id="current-date"></div>
+            </div>
+        </div>
+
+        <!-- ページタイトル -->
+        <h1>お知らせ登録完了</h1>
+
+        <!-- 登録完了メッセージ -->
+        <div class="notice-complete">
+            お知らせを登録しました。
+        </div>
+
+        <!-- リストに戻るボタン -->
+        <div class="return-btn">
+            <button onclick="location.href='{% url 'notice_list' %}'">一覧画面へ</button>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScriptで現在の日付を表示 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const today = new Date();
+        const days = ['日', '月', '火', '水', '木', '金', '土'];
+        const formattedDate = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日 (${days[today.getDay()]})`;
+        document.getElementById('current-date').textContent = formattedDate;
+    });
+</script>
+
+</body>
+</html>
